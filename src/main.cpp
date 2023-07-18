@@ -1,26 +1,67 @@
 #include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/videoio.hpp>
+//#include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
-using namespace cv;
+#define INT_TO_CHAR(fourcc)  					\
+		{(char)(fourcc & 0XFF) , 					\
+		 (char)((fourcc & 0XFF00) >> 8),			\
+		 (char)((fourcc & 0XFF0000) >> 16),			\
+		 (char)((fourcc & 0XFF000000) >> 24), 0};
+
+
+//using namespace cv;
+
+struct VideoParameters {
+	std::string name;
+	int fourcc;
+	double fps;
+	cv::Size frameSize;
+	bool isColor = true;
+
+	VideoParameters(std::string _name, int _fourcc, double _fps, cv::size _frameSize, bool _isColor = true)
+	: name{name}, fourcc{_fourcc}, fps(_fps), frameSize{_frameSize}, isColor{_isColor} {}
+};
+
+void getVideoParams(std::string video_path);
+
+/*
+Goal right now is to open a video file, play it, and write it to an avi file.
+*/
 
 int main() {
-	std::string image_path = "/home/spacebar/image0.jpg";
-	Mat img = imread(image_path, IMREAD_COLOR);
-
-	if (img.empty()) {
-		std::cout << "Could not read the image: " << image_path << std::endl;
+	std::string video_path = "/home/spacebar/Videos/vids/coyote.mp4";
+	cv::VideoCapture src;
+	int codec = src.get(CAP_PROP_FOURCC);
+	double fps = 30.0; // framerate of the created video stream
+	std::string output_name = "coyote2.avi";
+	
+	src.open(video_path);
+	if (!src.isOpened()) {
+		std::cout << "Could not open video " << video_path << std::endl;
 		return 1;
 	}
 
-	imshow("Display window", img);
-	int k = waitKey(0); // wait for keystroke in the window
-
-	if (k == 's') {
-		imwrite("starry_night.png", img);
+	// get one frame to know file size and type
+	cv::Mat frame;
+	src >> frame;
+	// check if we succeeded
+	if  (frame.empty()) {
+		std::cerr << "AYO BADABING BADABOOM\n";
 	}
+
+
+
+	do {
+		src >> frame;
+		cv::imshow("AHAHAHA", frame);
+		cv::waitKey(30);
+	} while (!frame.empty() );
 
 	return 0;
 }
