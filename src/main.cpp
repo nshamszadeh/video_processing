@@ -8,10 +8,10 @@
 #include <string>
 #include <sstream>
 
-#define INT_TO_CHAR(fourcc)  					\
-		{(char)(fourcc & 0XFF) , 					\
-		 (char)((fourcc & 0XFF00) >> 8),			\
-		 (char)((fourcc & 0XFF0000) >> 16),			\
+#define INT_TO_CHAR(fourcc)                         \
+		{(char)(fourcc & 0XFF) ,                    \
+		 (char)((fourcc & 0XFF00) >> 8),            \
+		 (char)((fourcc & 0XFF0000) >> 16),         \
 		 (char)((fourcc & 0XFF000000) >> 24), 0};
 
 
