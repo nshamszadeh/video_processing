@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 
-#define INT_TO_CHAR(fourcc)                                 \
+#define INT_TO_CHAR(fourcc)                         \
 		{(char)(fourcc & 0XFF) ,                    \
 		 (char)((fourcc & 0XFF00) >> 8),            \
 		 (char)((fourcc & 0XFF0000) >> 16),         \
@@ -28,7 +28,7 @@ struct VideoParameters {
 	: name{name}, fourcc{_fourcc}, fps(_fps), frameSize{_frameSize}, isColor{_isColor} {}
 };
 
-void getVideoParams(std::string video_path);
+VideoParameters getVideoParams(std::string video_path);
 
 /*
 Goal right now is to open a video file, play it, and write it to an avi file.
@@ -36,7 +36,21 @@ Goal right now is to open a video file, play it, and write it to an avi file.
 
 int main() {
 	std::string video_path = "/home/spacebar/Videos/vids/coyote.mp4";
+	
+
+	do {
+		src >> frame;
+		cv::imshow("AHAHAHA", frame);
+		cv::waitKey(30);
+	} while (!frame.empty() );
+
+	return 0;
+}
+
+
+VideoParameters getVideoParams(std::string video_path) {
 	cv::VideoCapture src;
+	VideoParameters vp;
 	int codec = src.get(CAP_PROP_FOURCC);
 	double fps = 30.0; // framerate of the created video stream
 	std::string output_name = "coyote2.avi";
@@ -44,7 +58,7 @@ int main() {
 	src.open(video_path);
 	if (!src.isOpened()) {
 		std::cout << "Could not open video " << video_path << std::endl;
-		return 1;
+		return ;
 	}
 
 	// get one frame to know file size and type
@@ -55,13 +69,4 @@ int main() {
 		std::cerr << "AYO BADABING BADABOOM\n";
 	}
 
-
-
-	do {
-		src >> frame;
-		cv::imshow("AHAHAHA", frame);
-		cv::waitKey(30);
-	} while (!frame.empty() );
-
-	return 0;
 }
