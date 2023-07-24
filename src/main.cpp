@@ -58,7 +58,7 @@ VideoParameters getVideoParams(std::string video_path) {
 	src.open(video_path);
 	if (!src.isOpened()) {
 		std::cout << "Could not open video " << video_path << std::endl;
-		return ;
+		return vp;
 	}
 
 	// get one frame to know file size and type
