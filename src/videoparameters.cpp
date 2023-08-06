@@ -10,25 +10,24 @@ namespace util {
   }
 
   VideoParameters::VideoParameters(std::string filename) {
-    cv::VideoCapture src(video_path);
+    cv::VideoCapture src(filename);
     if (!src.isOpened()) {
-      std::cout << "Could not open video " << video_path << std::endl;
-      return vp;
+      std::cout << "Could not open video " << filename << std::endl;
     }
-    fourcc = static_cast<int>(src.get(CAP_PROP_FOURCC));
-    fps = src.get(CAP_PROP_FPS);
-    name = getOutputFilename(video_path);
-    frameSize = cv::Size(static_cast<int>(src.get(CAP_PROP_FRAME_WIDTH)), 
-                                  static_cast<int>(src.get(CAP_PROP_FRAME_HEIGHT)));
-    isColor = (src.type() == CV_8UC3);
+    fourcc = static_cast<int>(src.get(cv::CAP_PROP_FOURCC));
+    fps = src.get(cv::CAP_PROP_FPS);
+    name = getOutputFilename(filename);
+    frameSize = cv::Size(static_cast<int>(src.get(cv::CAP_PROP_FRAME_WIDTH)), 
+                                  static_cast<int>(src.get(cv::CAP_PROP_FRAME_HEIGHT)));
+    //isColor = (src.type() == CV_8UC3);
   }
 
   VideoParameters::VideoParameters(cv::VideoCapture src) {
-    fourcc = static_cast<int>(src.get(CAP_PROP_FOURCC));
-    fps = src.get(CAP_PROP_FPS);
-    name = getOutputFilename(video_path);
-    frameSize = cv::Size(static_cast<int>(src.get(CAP_PROP_FRAME_WIDTH)), 
-                                  static_cast<int>(src.get(CAP_PROP_FRAME_HEIGHT)));
-    isColor = (src.type() == CV_8UC3);
+    fourcc = static_cast<int>(src.get(cv::CAP_PROP_FOURCC));
+    fps = src.get(cv::CAP_PROP_FPS);
+    name = "output_vid.avi";
+    frameSize = cv::Size(static_cast<int>(src.get(cv::CAP_PROP_FRAME_WIDTH)), 
+                                  static_cast<int>(src.get(cv::CAP_PROP_FRAME_HEIGHT)));
+    //isColor = (src.type() == CV_8UC3);
   }
 }
