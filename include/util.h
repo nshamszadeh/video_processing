@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <functional>
+#include <algorithm>
 
 #include <opencv2/videoio.hpp>
 

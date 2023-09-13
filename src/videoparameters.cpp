@@ -19,7 +19,7 @@ namespace util {
     name = getOutputFilename(filename);
     frameSize = cv::Size(static_cast<int>(src.get(cv::CAP_PROP_FRAME_WIDTH)), 
                                   static_cast<int>(src.get(cv::CAP_PROP_FRAME_HEIGHT)));
-    //isColor = (src.type() == CV_8UC3);
+    isColor = (src.get(cv::CAP_PROP_FORMAT) == CV_8UC3);
   }
 
   VideoParameters::VideoParameters(cv::VideoCapture src) {
@@ -28,6 +28,6 @@ namespace util {
     name = "output_vid.avi";
     frameSize = cv::Size(static_cast<int>(src.get(cv::CAP_PROP_FRAME_WIDTH)), 
                                   static_cast<int>(src.get(cv::CAP_PROP_FRAME_HEIGHT)));
-    //isColor = (src.type() == CV_8UC3);
+    isColor = (src.get(cv::CAP_PROP_FORMAT) == CV_8UC3);
   }
 }
