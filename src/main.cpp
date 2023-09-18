@@ -39,12 +39,22 @@ cv::Mat pixelSort(cv::Mat frame, cv::Mat mask, std::function<bool(const cv::Vec3
 		frame.copyTo(tmp);
 	// sort column-wise
 	// find an interval, sort based on the interval, go to next interval
-	size_t start = -1;
+	constexpr int UNSET = -1;
+	int start = UNSET;
 	for (int i = 0; i < tmp.rows; i++) {
-		auto row = tmp.row(i);
-		for (cv::MatIterator_<cv::Vec3b> it = row.begin<cv::Vec3b>(); it != row.end<cv::Vec3b>(); it++) {
-
+		auto tmp_row = tmp.row(i);
+		auto mask_row = mask.row(i);
+		for (int j = 0; j < tmp_row.cols; j++) {
+			if (mask_row.at<uchar>(j) == 1 && start == UNSET) { // new interval has been reached
+				start = j; // set interval starting point
+			} else if ((mask_row.at<uchar>(j) == 0 || j == tmp_row.cols - 1) && start != UNSET) { // current interval has ended
+				int end = j - 1; // set current interval ending point. j - 1 is safe because j == 0 implies start == UNSET
+				std::sort(tmp_row.begin<cv::Vec3b>() + start, tmp_row.begin<cv::Vec3b>() + end, comp); // sort pixels
+				// reset starting and ending points
+				start = UNSET;
+			}
 		}
+		 
 
 	}
 	return tmp;
@@ -71,7 +81,7 @@ int main() {
 		src >> frame;
 		
 		cv::Mat test = cv::Mat::eye(4,4, CV_8UC3);
-		test.row(0).at<cv::Vec3b>(0) = cv::Vec3b(255,0,0); 
+		test.row(0).at<cv::Vec3b>(0) = cv::Vec3b(255,0,0);
 		//std::cout << static_cast<int>(test.at<uchar>(0,0)) << std::endl;
 		test.at<cv::Vec3b>(0,1) = cv::Vec3b(34,1,2);
 		test.at<cv::Vec3b>(0,2) = cv::Vec3b(5,4,3);
