@@ -5,6 +5,7 @@
 #include <cmath> // std::fmod
 
 // recall opencv image pixels are stored in BGR format by default
+// TODO: Make BGR -> HLS conversion happen only once per image Mat (regardless of number of sorts)
 namespace comparator {
   inline float get_hue(const cv::Vec3b& v1) {
     auto minc_v1 = std::min(v1[0], v1[1], v1[2]);
@@ -31,8 +32,8 @@ namespace comparator {
     //auto minc_v2 = std::min(v2[0], v2[1], v2[2]);
     //auto maxc_v1 = std::max(v1[0], v1[1], v1[2]);
     //auto maxc_v2 = std::max(v2[0], v2[1], v2[2]);
-    static cv::Vec3b hls_v1(v1);
-    static cv::Vec3b hls_v2(v2);
+    cv::Vec3b hls_v1(v1);
+    cv::Vec3b hls_v2(v2);
     cv::cvtColor(v1, hls_v1, cv::COLOR_BGR2HLS_FULL);
     cv::cvtColor(v2, hls_v2, cv::COLOR_BGR2HLS_FULL);
     return hls_v1[1] < hls_v2[1];
@@ -40,8 +41,8 @@ namespace comparator {
   };
 
   std::function<bool(const cv::Vec3b&, const cv::Vec3b&)> hue = [](const cv::Vec3b& v1, const cv::Vec3b& v2) {
-    static cv::Vec3b hls_v1(v1);
-    static cv::Vec3b hls_v2(v2);
+    cv::Vec3b hls_v1(v1);
+    cv::Vec3b hls_v2(v2);
     cv::cvtColor(v1, hls_v1, cv::COLOR_BGR2HLS_FULL);
     cv::cvtColor(v2, hls_v2, cv::COLOR_BGR2HLS_FULL);
     return v1[0] < v2[0];
@@ -49,8 +50,8 @@ namespace comparator {
   };
 
   std::function<bool(const cv::Vec3b&, const cv::Vec3b&)> saturation = [](const cv::Vec3b& v1, const cv::Vec3b& v2) {
-    static cv::Vec3b hls_v1(v1);
-    static cv::Vec3b hls_v2(v2);
+    cv::Vec3b hls_v1(v1);
+    cv::Vec3b hls_v2(v2);
     cv::cvtColor(v1, hls_v1, cv::COLOR_BGR2HLS_FULL);
     cv::cvtColor(v2, hls_v2, cv::COLOR_BGR2HLS_FULL);
     return hls_v1[2] < hls_v2[2];

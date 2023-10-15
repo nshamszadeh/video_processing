@@ -54,8 +54,6 @@ cv::Mat pixelSort(cv::Mat frame, cv::Mat mask, std::function<bool(const cv::Vec3
 				start = UNSET;
 			}
 		}
-		 
-
 	}
 	return tmp;
 }
