@@ -77,7 +77,7 @@ int main() {
 
 	do {
 		src >> frame;
-		
+
 		cv::Mat test = cv::Mat::eye(4,4, CV_8UC3);
 		test.row(0).at<cv::Vec3b>(0) = cv::Vec3b(255,0,0);
 		//std::cout << static_cast<int>(test.at<uchar>(0,0)) << std::endl;
@@ -92,6 +92,3 @@ int main() {
 
 	return 0;
 }
-
-
-
