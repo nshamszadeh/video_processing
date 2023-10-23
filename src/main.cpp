@@ -35,19 +35,9 @@ int main() {
 	}
 
 	cv::Mat frame;
-
 	do {
 		src >> frame;
-
-		cv::Mat test = cv::Mat::eye(4,4, CV_8UC3);
-		test.row(0).at<cv::Vec3b>(0) = cv::Vec3b(255,0,0);
-		//std::cout << static_cast<int>(test.at<uchar>(0,0)) << std::endl;
-		test.at<cv::Vec3b>(0,1) = cv::Vec3b(34,1,2);
-		test.at<cv::Vec3b>(0,2) = cv::Vec3b(5,4,3);
-		std::cout << test.at<cv::Vec3b>(2) << std::endl;
-		std::cout << std::endl << test << std::endl;
-		cv::Mat mask = cv::Mat::ones(frame.size(), CV_8U);
-		
+		cv::Mat mask = cv::Mat::ones(frame.size(), CV_8UC1);
 		cv::Mat sorted_frame = pixelSort(frame, mask, comparator::lightness);
 		output_vid.write(sorted_frame);
 		cv::imshow("AHAHAHA", sorted_frame);
