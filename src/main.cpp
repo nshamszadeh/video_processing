@@ -20,7 +20,7 @@ TODO: output a pixel-sorted video file
 */
 
 int main() {
-	std::string video_path = "/mnt/c/Users/xxtou/Videos/2022-12-28 13-48-08_Trim.mp4";
+	std::string video_path = "/mnt/c/Users/xxtou/Videos/x2mate.com-The_Matrix-Opening_Scene-(480p).mp4";
 	cv::VideoCapture src(video_path);
 	if (!src.isOpened()) {
 		std::cout << "Could not open " << video_path << std::endl;
