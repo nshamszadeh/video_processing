@@ -16,7 +16,8 @@ cv::Mat pixelSort(cv::Mat frame, cv::Mat mask, const F& comp, bool rowWise = fal
 	// frame and mask must be same dimensions
 	CV_Assert((frame.rows == mask.rows) && (frame.cols == mask.cols));
 	CV_Assert((frame.type() == CV_8UC3) && (mask.type() == CV_8UC1));
-
+	//cv::Mat frame_hls(frame.rows, frame.cols, frame.type);
+	//cv::cvtColor(frame, frame_hls, cv::COLOR_BGR2HLS_FULL);
 	cv::Mat sorted_frame = cv::Mat(frame.size(), frame.type());
 	if (!rowWise) {
 		cv::rotate(frame, sorted_frame, cv::ROTATE_90_COUNTERCLOCKWISE);
@@ -43,6 +44,6 @@ cv::Mat pixelSort(cv::Mat frame, cv::Mat mask, const F& comp, bool rowWise = fal
 			}
 		}
 	}
-  cv::rotate(sorted_frame, sorted_frame, cv::ROTATE_90_CLOCKWISE);
+	if (!rowWise) cv::rotate(sorted_frame, sorted_frame, cv::ROTATE_90_CLOCKWISE);
 	return sorted_frame;
 }
