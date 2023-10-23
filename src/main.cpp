@@ -38,7 +38,7 @@ int main() {
 	do {
 		src >> frame;
 		cv::Mat mask = cv::Mat::ones(frame.size(), CV_8UC1);
-		cv::Mat sorted_frame = pixelSort(frame, mask, comparator::lightness, true);
+		cv::Mat sorted_frame = pixelSort(frame, mask, comparator::saturation, true);
 		output_vid.write(sorted_frame);
 		cv::imshow("AHAHAHA", sorted_frame);
 		cv::waitKey(30);

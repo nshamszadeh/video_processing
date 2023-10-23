@@ -32,8 +32,8 @@ template <typename T>
       else if (green_v1 == maxc_v1) v1_hue = 2.0 + red_v1 - blue_v1;
       else v1_hue = 4.0 + green_v1 - red_v1;
       v1_hue = std::fmod(v1_hue, 6.0);
-      return v1_hue;
     }
+      return v1_hue;
   }
 
   auto lightness = [](const cv::Vec3b& v1, const cv::Vec3b& v2) {
