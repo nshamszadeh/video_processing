@@ -1,7 +1,10 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
-
+#ifdef _DEBUG
+#include <opencv2/highgui.hpp> // cv::waitKey()
+#endif
 #include "util.h"
+#include "comparators.h"
 
 namespace fx {
 	/**
@@ -13,6 +16,8 @@ namespace fx {
 	 * 	cv::Mat frame - image to apply pixel sorting to
 	 * 	cv::Mat mask  - Binary image detailing the intervals to sort ()
 	 * 									Intervals are set to 1 and separated by 0
+	 *  const F& comp - lambda function defining comparison function for sorting
+	 *                  defined in include/comparators.h
 	 */
 	template <typename F>
 	cv::Mat pixelSortFrame(cv::Mat frame, cv::Mat mask, const F& comp, bool rowWise = false) {
@@ -51,7 +56,8 @@ namespace fx {
 		return sorted_frame;
 	}
 
-	cv::VideoWriter pixelSort(cv::VideoCapture src_vid) {
+	template <typename F>
+	cv::VideoWriter pixelSort(cv::VideoCapture src_vid, const F& comp) {
 		util::VideoParameters vp(src_vid);
 		cv::VideoWriter output_vid;
 		output_vid.open(vp.name, vp.fourcc, vp.fps, vp.frameSize, vp.isColor);
@@ -60,9 +66,8 @@ namespace fx {
 		do {
 			src_vid >> frame;
 			cv::Mat mask = cv::Mat::ones(frame.size(), CV_8UC1);
-			cv::Mat sorted_frame = pixelSortFrame(frame, mask, comparator::saturation, true);
+			cv::Mat sorted_frame = pixelSortFrame(frame, mask, comp, true);
 			output_vid.write(sorted_frame);
-			cv::waitKey(30);
 		} while (!frame.empty());
 
 		return output_vid;

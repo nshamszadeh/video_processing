@@ -1,10 +1,5 @@
 #include <iostream>
 #include <string>
-//#include <opencv2/core.hpp>
-//#include <opencv2/imgproc.hpp>
-//#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include "comparators.h"
 #include "sorter.h"
 
 //using namespace cv;
@@ -16,7 +11,7 @@ int main() {
 		std::cout << "Could not open " << video_path << std::endl;
 		return 1;
 	}
-	cv::VideoWriter pixelSortedVid = fx::pixelSort(src);
+	cv::VideoWriter pixelSortedVid = fx::pixelSort(src, comparator::lightness);
 	pixelSortedVid.release();
 	return 0;
 }
