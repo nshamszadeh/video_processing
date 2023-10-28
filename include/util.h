@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 #include <functional>
 #include <algorithm>
@@ -18,8 +17,4 @@ namespace util {
 		VideoParameters(std::string filename);
 		VideoParameters(cv::VideoCapture src);
   };
-
-	
-
-
 }
