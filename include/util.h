@@ -18,6 +18,7 @@ namespace util {
 		(stream << ... << std::forward<Args>(args)) << '\n';
 		std::cout << stream.str();
 	}
+#define TRACE(...) trace(__VA_ARGS__)
 #else
 #define TRACE(...)
 #endif
