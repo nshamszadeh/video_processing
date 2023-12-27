@@ -1,8 +1,8 @@
 #include <string>
 #include "fx.h"
 
-int main() {
-	std::string video_path = "/mnt/c/Users/xxtou/Downloads/input2.mp4";
+int main(int argc, char *argv[]) {
+	std::string video_path = static_cast<std::string>(argv[1]);
 	cv::VideoCapture src(video_path);
 	if (!src.isOpened()) {
 		TRACE("Could not open ", video_path);
