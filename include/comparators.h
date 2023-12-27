@@ -3,10 +3,9 @@
 #include <algorithm> // std::min
 #include <cmath> // std::fmod
 #pragma once
-// recall opencv image pixels are stored in BGR format by default
-// TODO: Make BGR -> HLS conversion happen only once per image Mat (regardless of number of sorts)
-namespace comparator {
 
+// recall opencv image pixels are stored in BGR format by default
+namespace comparator {
   template <typename T>
   inline T min3(T& a, T&b, T&c) {
     T temp = (a < b) ? a : b;
@@ -36,14 +35,7 @@ template <typename T>
       return v1_hue;
   }
 
-  /*const auto lightness = [](const cv::Vec3b& v1, const cv::Vec3b& v2) {
-    auto minc_v1 = min3(v1[0], v1[1], v1[2]);
-    auto minc_v2 = min3(v2[0], v2[1], v2[2]);
-    auto maxc_v1 = max3(v1[0], v1[1], v1[2]);
-    auto maxc_v2 = max3(v2[0], v2[1], v2[2]);
-    return ((minc_v1 + maxc_v1) / 2.0) < ((minc_v2 + maxc_v2) / 2.0);
-  };
-*/
+// parent struct for all comparison functors. SHOULD NOT BE DIRECTLY USED
   struct comparator {
     bool operator()(const cv::Vec3b& v1, const cv::Vec3b& v2) const {
       return v1[0] < v2[0];
