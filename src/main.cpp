@@ -1,17 +1,15 @@
-#include <iostream>
 #include <string>
-#include "sorter.h"
-
-//using namespace cv;
+#include "fx.h"
 
 int main() {
-	std::string video_path = "/mnt/c/Users/xxtou/Downloads/input.mp4";
+	std::string video_path = "/mnt/c/Users/xxtou/Downloads/input2.mp4";
 	cv::VideoCapture src(video_path);
 	if (!src.isOpened()) {
-		std::cout << "Could not open " << video_path << std::endl;
+		TRACE("Could not open ", video_path);
 		return 1;
 	}
-	cv::VideoWriter pixelSortedVid = fx::pixelSort(src, comparator::lightness);
-	pixelSortedVid.release();
+	TRACE("Calling pixelSort()");
+	fx::pixelSort(src, comparator::lightness());
+	src.release();
 	return 0;
 }
