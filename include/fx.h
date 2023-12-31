@@ -30,5 +30,5 @@ namespace fx {
 	 * @return cv::VideoWriter video whose frames are pixel-sorted
 	 */
 	//template <typename F>
-	void pixelSort(cv::VideoCapture src_vid, comparator::comparator comp, const bool rowWise = false);
+	void pixelSort(std::string src_path, comparator::comparator comp, const bool rowWise = false);
 }

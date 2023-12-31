@@ -1,15 +1,14 @@
 #include <string>
 #include "fx.h"
+#include "maskgen.h"
 
 int main(int argc, char *argv[]) {
 	std::string video_path = static_cast<std::string>(argv[1]);
-	cv::VideoCapture src(video_path);
-	if (!src.isOpened()) {
-		TRACE("Could not open ", video_path);
-		return 1;
-	}
+	//cv::VideoWriter mask;
+	//mask.open("mask.avi")
+	//maskgen::bgSubtract(src, &mask);
 	TRACE("Calling pixelSort()");
-	fx::pixelSort(src, comparator::lightness());
-	src.release();
+	fx::pixelSort(video_path, comparator::lightness());
+	//src.release();
 	return 0;
 }

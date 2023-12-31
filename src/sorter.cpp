@@ -37,24 +37,26 @@ namespace fx {
 		return sorted_frame;
 	}
 
-	void pixelSort(cv::VideoCapture src_vid, comparator::comparator comp, const bool rowWise) {
-		util::VideoParameters vp(src_vid);
+	void pixelSort(std::string src_path, comparator::comparator comp, const bool rowWise) {
+		cv::VideoCapture src_vid(src_path);
+    util::VideoParameters vp(src_vid);
 		cv::VideoWriter output_vid;
 		output_vid.open(vp.name, cv::VideoWriter::fourcc('M','J','P','G'), vp.fps, vp.frameSize);
-		size_t frame_count = src_vid.get(cv::CAP_PROP_FRAME_COUNT);
+		const size_t frame_count = src_vid.get(cv::CAP_PROP_FRAME_COUNT);
 		cv::Mat frame;
-		src_vid >> frame;
-		for (size_t i = 0; i < frame_count; i++) {
-			if (!output_vid.isOpened()) {
+		if (!output_vid.isOpened() || !src_vid.isOpened()) {
 				TRACE("Something went wrong here.");
 				return;
-			}
+		}
+		for (size_t i = 0; i < frame_count; i++) {
+			
+      src_vid >> frame;
 			cv::Mat mask = cv::Mat::ones(frame.size(), CV_8UC1);
 			cv::Mat sorted_frame = pixelSortFrame(frame, mask, comp, rowWise);
 			IMSHOW("sorted frame: ", sorted_frame);
 			output_vid.write(sorted_frame);
-			src_vid >> frame;
 		}
 		output_vid.release();
+    src_vid.release();
 	}
 }
