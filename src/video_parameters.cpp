@@ -5,7 +5,7 @@ namespace util {
     std::string output_name = video_path.substr(video_path.find_last_of("/") + 1);
     std::string::size_type const p(output_name.find_last_of("."));
     output_name = output_name.substr(0, p);
-    output_name += "_modified.avi";
+    //output_name += "_modified.avi";
     return output_name;
   }
 

@@ -5,5 +5,5 @@
 #include <opencv2/videoio.hpp>
 
 namespace maskgen {
-  void bgSubtract(cv::VideoCapture& input_vid, cv::VideoCapture* mask);
+cv::VideoWriter bgSubtract(std::string src_path);
 }
