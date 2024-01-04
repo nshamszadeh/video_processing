@@ -1,14 +1,11 @@
-#include "sorter.h"
-// poop
+#include <utility>
+#include "fx.h"
 
 namespace fx {
-	template <typename F>
-	cv::Mat pixelSortFrame(cv::Mat frame, cv::Mat mask, const F& comp, bool rowWise = false) {
+	cv::Mat pixelSortFrame(cv::Mat frame, cv::Mat mask, comparator::comparator comp, const bool rowWise) {
 		// frame and mask must be same dimensions
 		CV_Assert((frame.rows == mask.rows) && (frame.cols == mask.cols));
 		CV_Assert((frame.type() == CV_8UC3) && (mask.type() == CV_8UC1));
-		//cv::Mat frame_hls(frame.rows, frame.cols, frame.type);
-		//cv::cvtColor(frame, frame_hls, cv::COLOR_BGR2HLS_FULL);
 		cv::Mat sorted_frame = cv::Mat(frame.size(), frame.type());
 		if (!rowWise) {
 			cv::rotate(frame, sorted_frame, cv::ROTATE_90_COUNTERCLOCKWISE);
@@ -39,20 +36,24 @@ namespace fx {
 		return sorted_frame;
 	}
 
-	template <typename F>
-	cv::VideoWriter pixelSort(cv::VideoCapture src_vid, const F& comp) {
+	void pixelSort(cv::VideoCapture src_vid, comparator::comparator comp, const bool rowWise) {
 		util::VideoParameters vp(src_vid);
 		cv::VideoWriter output_vid;
-		output_vid.open(vp.name, vp.fourcc, vp.fps, vp.frameSize, vp.isColor);
-
+		output_vid.open(vp.name, cv::VideoWriter::fourcc('M','J','P','G'), vp.fps, vp.frameSize);
+		size_t frame_count = src_vid.get(cv::CAP_PROP_FRAME_COUNT);
 		cv::Mat frame;
-		do {
-			src_vid >> frame;
+		src_vid >> frame;
+		for (size_t i = 0; i < frame_count; i++) {
+			if (!output_vid.isOpened()) {
+				TRACE("Something went wrong here.");
+				return;
+			}
 			cv::Mat mask = cv::Mat::ones(frame.size(), CV_8UC1);
-			cv::Mat sorted_frame = pixelSortFrame(frame, mask, comp, true);
+			cv::Mat sorted_frame = pixelSortFrame(frame, mask, comp, rowWise);
+			IMSHOW("sorted frame: ", sorted_frame);
 			output_vid.write(sorted_frame);
-		} while (!frame.empty());
-
-		return output_vid;
+			src_vid >> frame;
+		}
+		output_vid.release();
 	}
 }
