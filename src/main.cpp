@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
 	std::string video_path = static_cast<std::string>(argv[1]);
-	cv::VideoWriter mask = maskgen::bgSubtract(video_path);
-	fx::pixelSort(video_path, comparator::lightness());
+	std::string mask_path = maskgen::bgSubtract(video_path);
+	fx::pixelSort(video_path, mask_path, comparator::lightness());
 	return 0;
 }
