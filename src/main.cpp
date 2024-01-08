@@ -5,6 +5,6 @@
 int main(int argc, char *argv[]) {
 	std::string video_path = static_cast<std::string>(argv[1]);
 	std::string mask_path = maskgen::bgSubtract(video_path);
-	fx::pixelSort(video_path, mask_path, comparator::lightness());
+	fx::pixelSort(video_path, mask_path, comparator::hue(), true);
 	return 0;
 }
