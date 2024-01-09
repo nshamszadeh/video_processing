@@ -18,7 +18,7 @@ namespace maskgen {
       src_vid >> frame;
       p_bgsub->apply(frame, mask_frame);
       cv::extractChannel(mask_frame, mask_frame_8UC1, 0);
-      //IMSHOW("mask", mask_frame_8UC1);
+      IMSHOW("mask", mask_frame_8UC1);
       mask.write(mask_frame_8UC1);
       std::string mat_type;
       GET_MAT_TYPE(mask_frame_8UC1.type(), mat_type);

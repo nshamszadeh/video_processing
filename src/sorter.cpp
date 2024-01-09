@@ -1,4 +1,5 @@
 #include <utility>
+#include <cstdio>
 #include "fx.h"
 
 namespace fx {
@@ -20,24 +21,26 @@ namespace fx {
 		else {
 			frame.copyTo(sorted_frame);
 		}
-    TRACE("");
+    //TRACE("");
 		// sort column-wise
 		// find an interval, sort based on the interval, go to next interval
 		constexpr int UNSET = -1;
-		int start = UNSET;
 		for (int i = 0; i < sorted_frame.rows; i++) {
-      TRACE("i: ", i);
+      TRACE("row: ", i);
+			int start = UNSET;
 			auto tmp_row = sorted_frame.row(i);
 			auto mask_row = mask_8UC1.row(i);
 			for (int j = 0; j < tmp_row.cols; j++) {
+				//std::printf("mask[%d]: %d\n", j, static_cast<int>(mask_row.at<uchar>(j)));
 				if (mask_row.at<uchar>(j) == 1 && start == UNSET) { // new interval has been reached
 					start = j; // set interval starting point
+					TRACE("starting point: ", start);
 				} else if ((mask_row.at<uchar>(j) == 0 || j == tmp_row.cols - 1) && start != UNSET) { // current interval has ended
 					int end = j - 1; // set current interval ending point. j - 1 is safe because j == 0 implies start == UNSET
+					TRACE("end point: ", end);
 					std::sort(tmp_row.begin<cv::Vec3b>() + start, tmp_row.begin<cv::Vec3b>() + end, comp); // sort pixels
 					// reset starting and ending points
 					start = UNSET;
-          TRACE("mask_row.at<uchar>("," "): ")
 				}
 			}
 		}
