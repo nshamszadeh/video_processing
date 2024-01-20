@@ -12,8 +12,8 @@ namespace fx {
 	 * For now this is going to sort row-wise only.
 	 * 
 	 * 
-	 * 	@param frame - image to apply pixel sorting to
-	 * 	@param mask  - Binary image detailing the intervals to sort ()
+	 *  @param frame - image to apply pixel sorting to
+	 *  @param mask  - Binary image detailing the intervals to sort ()
 	 *                 Intervals are set to 1 and separated by 0
 	 *  @param comp - lambda function defining comparison function for sorting
 	 *                defined in include/comparators.h
