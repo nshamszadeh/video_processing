@@ -1,5 +1,4 @@
 #include <utility>
-#include <cstdio>
 #include "fx.h"
 
 namespace fx {
@@ -12,7 +11,6 @@ namespace fx {
     	GET_MAT_TYPE(mask_8UC1.type(), mat_type);
 		CV_Assert((frame.rows == mask_8UC1.rows) && (frame.cols == mask_8UC1.cols));
 		CV_Assert((frame.type() == CV_8UC3) && (mask_8UC1.type() == CV_8UC1));
-    	//TRACE("");
 		cv::Mat sorted_frame = cv::Mat(frame.size(), frame.type());
 		if (!rowWise) {
 			cv::rotate(frame, sorted_frame, cv::ROTATE_90_COUNTERCLOCKWISE);
@@ -21,7 +19,6 @@ namespace fx {
 		else {
 			frame.copyTo(sorted_frame);
 		}
-    	//TRACE("");
 		// sort column-wise
 		// find an interval, sort based on the interval, go to next interval
 		constexpr int UNSET = -1;
@@ -30,7 +27,6 @@ namespace fx {
 			auto tmp_row = sorted_frame.row(i);
 			auto mask_row = mask_8UC1.row(i);
 			for (int j = 0; j < tmp_row.cols; j++) {
-				//std::printf("mask[%d]: %d\n", j, static_cast<int>(mask_row.at<uchar>(j)));
 				if (mask_row.at<uchar>(j) && start == UNSET) { // new interval has been reached
 					start = j; // set interval starting point
 				} else if ((mask_row.at<uchar>(j) == 0 || j == tmp_row.cols - 1) && start != UNSET) { // current interval has ended
