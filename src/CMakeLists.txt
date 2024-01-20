@@ -4,7 +4,7 @@ message("CMAKE_CXX23_STANDARD_COMPILE_OPTION = ${CMAKE_CXX23_STANDARD_COMPILE_OP
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 include_directories( ../include )
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-  add_compile_definitions("_DEBUG")
+    add_compile_definitions("_DEBUG")
 endif()
 set(SOURCES video_parameters.cpp sorter.cpp maskgen.cpp main.cpp)
 add_executable( main ${SOURCES} .. )
