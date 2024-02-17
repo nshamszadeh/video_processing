@@ -1,11 +1,14 @@
+#pragma once
+#include <iostream>
 #include <string>
+#include <cstdlib>
 #include <functional>
 #include <algorithm>
+#include <vector>
 #include <opencv2/videoio.hpp>
 
 // debug helpers (may put these in another header later)
 #ifdef _DEBUG
-#include <iostream>
 #include <string_view>
 #include <source_location>
 #include<opencv2/highgui.hpp>
@@ -131,7 +134,6 @@ void trace(const std::source_location& loc, Args&& ...args) {
 #define GET_MAT_TYPE(mtype, str_ref)
 #define IMSHOW(name, frame)
 #endif
-#pragma once
 
 namespace util {
     struct VideoParameters {
